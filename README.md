@@ -81,8 +81,8 @@ jupyter notebook Projeto_Final_Deteccao_Analise_Pluma.ipynb
 ## 🧠 Fluxo Metodológico Implementado (Seções 1 a 10 do Guia)
 
 1. **Objetivo e Definição Operacional (Seções 1 e 2):** Delimitação formal do que compõe a classe `pluma` e formulação das 5 perguntas de pesquisa verificáveis.
-2. **Dados, Metadados em UTC e Divisão sem Vazamento (Seções 3 e 4):** Registro de coordenadas (`-23.9244, -46.3622`), incerteza posicional, fuso original (`UTC-3`) e horário em `UTC`, incluindo exemplos negativos (nuvens, chaminés e sombras) e split agrupado por `sequencia_id`.
-3. **Pré-processamento e Super-Resolução (Seção 5):** Avaliação comparativa em $4\times$ (Sem SR vs. Bicúbica vs. Lanczos-4 + Filtro Bilateral), mensurando PSNR, erro de gradiente de borda e criação de artefatos.
+2. **Dados, Metadados em UTC e Divisão sem Vazamento (Seções 3 e 4):** Registro de coordenadas (`-23.9244, -46.3622`), incerteza posicional, campo explícito `camera`, condições de captura, fuso original (`UTC-3`) e horário em `UTC`, incluindo exemplos negativos (nuvens, chaminés e sombras) e split agrupado por `sequencia_id`.
+3. **Pré-processamento e Super-Resolução (Seção 5):** Avaliação comparativa em $4\times$ (Sem SR vs. Bicúbica vs. Lanczos-4 + Filtro Bilateral) mensurando PSNR, erro de gradiente de borda, artefatos e impacto conjunto na **detecção (YOLOv8)** e **segmentação (SAM)** em dados de teste independentes (`FRAME_TESTE_T00`).
 4. **Treinamento do Detector YOLO (Seção 6):** Ajuste do `yolov8n.pt` com `seed=42` e *data augmentation* fisicamente plausível (`flipud=0.0`), avaliando predições frente às anotações (*Ground Truth*).
 5. **Segmentação Assistida por SAM e Caracterização Visual (Seção 7):** Uso das caixas do YOLO como regiões candidatas para o `SamPredictor` com revisão de contornos difusos e extração automática de:
    * Área aparente em pixels;

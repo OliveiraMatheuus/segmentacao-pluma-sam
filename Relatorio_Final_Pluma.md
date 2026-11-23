@@ -25,7 +25,7 @@ O objetivo do projeto é identificar automaticamente regiões ocupadas por pluma
 ## 2. Dados, Metadados Geotemporais e Divisão sem Vazamento (Seções 3 e 4)
 
 Cada observação do catálogo (`metadados_geotemporais_utc.csv`) documenta:
-1. **Identificação e Origem:** `image_id`, `sequencia_id`, fonte documental, tipo de sensor/câmera e resolução nativa.
+1. **Identificação e Origem:** `image_id`, `sequencia_id`, fonte documental, registro explícito de `camera`, resolução nativa e condições de captura.
 2. **Referência Geográfica e Incerteza:** Coordenadas da área observada no Terminal da Alemoa ($\text{lat} = -23{,}9244^\circ$, $\text{lon} = -46{,}3622^\circ$) com incerteza posicional documentada entre $\pm 200\text{ m}$ e $\pm 400\text{ m}$.
 3. **Referência Temporal Padronizada:** Registro simultâneo no fuso original (`America/Sao_Paulo`, UTC-3) e em **Tempo Universal Coordenado (UTC)**, requisito indispensável para o acoplamento com o Copernicus ERA5.
 4. **Prevenção de Vazamento Temporal (*Data Leakage*) em Dataset Multi-Vídeo:** O conjunto de dados foi expandido com **6 vídeos reais de plumas de fumaça** em `data/videos_treino/` (incêndios em refinaria de petróleo em dois ângulos distintos, coluna de incêndio urbano/comercial, dispersão de plumas florestais e emissão contínua de chaminé industrial), totalizando 57 quadros extraídos e anotados (além de controles negativos com nuvens e estruturas costeiras sem fumaça). A separação em `train` (`seq01` a `seq04` + referência Ultracargo + negativos de treino), `val` (`seq05`, `seq06` + negativos de validação) e `test` (`video_pluma.mp4`, `SEQ_08_VIDEO_TESTE_TEMPORAL`) foi realizada agrupando-se estritamente por `sequencia_id`. Nenhum quadro de um mesmo vídeo compartilha partições distintas.
@@ -35,9 +35,9 @@ Cada observação do catálogo (`metadados_geotemporais_utc.csv`) documenta:
 ## 3. Pré-processamento e Avaliação de Super-Resolução (Seção 5)
 
 O pré-processamento preserva cópia integral dos arquivos brutos (`data/raw`) e aplica conversão para o espaço RGB e normalização radiométrica. Para avaliar o impacto da **Super-Resolução** em cenários onde a pluma ocupa poucos pixels:
-* A imagem de referência foi subamostrada em $4\times$ ($235 \times 135\text{ px}$);
-* Comparou-se a imagem sem super-resolução, a interpolação Bicúbica ($4\times$) e a reconstrução por **Super-Resolução Lanczos-4 acoplada a filtro bilateral preservador de bordas** ($4\times$).
-* **Resultado (PQ-05):** A super-resolução elevou o PSNR e aumentou o IoU da máscara segmentada pelo SAM em relação à referência original, reduzindo o efeito de blocos (*aliasing*) nos contornos difusos sem introduzir artefatos significativos de *overshoot* nas fronteiras com os tanques industriais.
+* A imagem de referência e o quadro de teste independente (`FRAME_TESTE_T00` da partição `test`) foram subamostrados em $4\times$, mantendo vinculados os arquivos original e ampliado em `data/super_resolution/`;
+* Comparou-se a imagem sem super-resolução, a interpolação Bicúbica ($4\times$) e a reconstrução por **Super-Resolução Lanczos-4 acoplada a filtro bilateral preservador de bordas** ($4\times$);
+* **Resultado (PQ-05):** A super-resolução elevou o PSNR e foi avaliada tanto na **detecção (YOLOv8 — confiança e IoU de caixa)** quanto na **segmentação (SAM — IoU da máscara)** em dados de teste independentes, reduzindo o efeito de blocos (*aliasing*) nos contornos difusos sem introduzir artefatos significativos de *overshoot* nas fronteiras com os tanques industriais.
 
 ---
 
@@ -62,7 +62,7 @@ As caixas delimitadoras preditas pelo YOLO alimentam automaticamente o `SamPredi
 
 ## 5. Análise Temporal e Diferenciação Física (Seção 8)
 
-Na sequência temporal de teste (`SEQ_05_VIDEO_TESTE_TEMPORAL`), as detecções consecutivas foram associadas calculando-se o vetor de deslocamento aparente:
+Na sequência temporal de teste (`SEQ_08_VIDEO_TESTE_TEMPORAL`), as detecções consecutivas foram associadas calculando-se o vetor de deslocamento aparente:
 
 $$\Delta \mathbf{c}_t = \mathbf{c}_{t+1} - \mathbf{c}_t = (u_{t+1} - u_t, \; v_{t+1} - v_t)$$
 
