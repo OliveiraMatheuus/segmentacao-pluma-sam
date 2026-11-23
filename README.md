@@ -14,6 +14,16 @@ Este repositório implementa o fluxo computacional completo para detectar, segme
 
 ```text
 segmentacao-pluma-sam/
+├── data/
+│   ├── Santos_Abril_2015_Ultracargo.png        # Fotografia real de referência (Incêndio Ultracargo 2015)
+│   ├── video_pluma.mp4                         # Vídeo principal de teste temporal (1920x1080, isolado em test)
+│   └── videos_treino/                          # 6 vídeos reais públicos de plumas para treino e validação do YOLOv8
+│       ├── seq01_refinaria_pluma_oleo_a.webm   # [TRAIN] Incêndio em refinaria de petróleo (pluma densa A)
+│       ├── seq02_refinaria_pluma_oleo_b.webm   # [TRAIN] Incêndio em refinaria de petróleo (pluma densa B)
+│       ├── seq03_incendio_urbano_coluna.webm   # [TRAIN] Coluna ascendente de fumaça em incêndio urbano/industrial
+│       ├── seq04_pluma_florestal_howe_ridge.webm # [TRAIN] Pluma convectiva e dispersão atmosférica (Howe Ridge)
+│       ├── seq05_coluna_fumaca_garnet_fire.webm  # [VAL] Coluna de fumaça com advecção lateral (Sierra Garnet)
+│       └── seq06_pluma_chamine_industrial.ogv  # [VAL] Pluma contínua emitida por chaminé industrial
 ├── Projeto_Final_Deteccao_Analise_Pluma.ipynb  # Notebook principal completo (10 seções do Guia do Trabalho Final)
 ├── Relatorio_Final_Pluma.md                    # Relatório técnico consolidado respondendo às 5 perguntas de pesquisa
 ├── Modelagem_Computacional.ipynb               # Experimento inicial exploratório de segmentação com SAM

@@ -28,7 +28,7 @@ Cada observação do catálogo (`metadados_geotemporais_utc.csv`) documenta:
 1. **Identificação e Origem:** `image_id`, `sequencia_id`, fonte documental, tipo de sensor/câmera e resolução nativa.
 2. **Referência Geográfica e Incerteza:** Coordenadas da área observada no Terminal da Alemoa ($\text{lat} = -23{,}9244^\circ$, $\text{lon} = -46{,}3622^\circ$) com incerteza posicional documentada entre $\pm 200\text{ m}$ e $\pm 400\text{ m}$.
 3. **Referência Temporal Padronizada:** Registro simultâneo no fuso original (`America/Sao_Paulo`, UTC-3) e em **Tempo Universal Coordenado (UTC)**, requisito indispensável para o acoplamento com o Copernicus ERA5.
-4. **Prevenção de Vazamento Temporal (*Data Leakage*):** A separação em `train`, `val` e `test` foi realizada agrupando-se estritamente por `sequencia_id`. Nenhum quadro consecutivo de uma mesma sequência compartilha partições distintas.
+4. **Prevenção de Vazamento Temporal (*Data Leakage*) em Dataset Multi-Vídeo:** O conjunto de dados foi expandido com **6 vídeos reais de plumas de fumaça** em `data/videos_treino/` (incêndios em refinaria de petróleo em dois ângulos distintos, coluna de incêndio urbano/comercial, dispersão de plumas florestais e emissão contínua de chaminé industrial), totalizando 57 quadros extraídos e anotados (além de controles negativos com nuvens e estruturas costeiras sem fumaça). A separação em `train` (`seq01` a `seq04` + referência Ultracargo + negativos de treino), `val` (`seq05`, `seq06` + negativos de validação) e `test` (`video_pluma.mp4`, `SEQ_08_VIDEO_TESTE_TEMPORAL`) foi realizada agrupando-se estritamente por `sequencia_id`. Nenhum quadro de um mesmo vídeo compartilha partições distintas.
 
 ---
 
