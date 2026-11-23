@@ -10,6 +10,15 @@ Este repositório implementa o fluxo computacional completo para detectar, segme
 
 ---
 
+## 🎬 Demonstração do Vídeo de Detecção e Segmentação (`YOLOv8 + SAM`)
+
+![Vídeo de Detecção e Segmentação da Pluma (YOLOv8 + SAM + Centroide)](data/video_pluma_detectada_preview.gif)
+
+* **Arquivo de Vídeo Completo (`.mp4`):** [`data/video_pluma_detectada_yolo_sam.mp4`](data/video_pluma_detectada_yolo_sam.mp4)
+* **Vídeos Reais de Treino e Validação:** [`data/videos_treino/`](data/videos_treino/)
+
+---
+
 ## 📁 Estrutura do Repositório
 
 ```text
